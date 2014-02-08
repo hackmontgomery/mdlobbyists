@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>MD Lobbyist Registration Form</title>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table">
+                        <tr>
+                            <th>Document</th>
+                            <th>Lobbyist</th>
+                            <th>Firm</th>
+                            <th>Employer</th>
+                        </tr>
+                        <tr>
+                            {% for doc in docs %}
+                                <td><a href="#">{{ doc.doc_id }}</a></td>
+                                <td>{{ doc.lobbyist_name }}</td>
+                                <td>{{ doc.firm_name }}</td>
+                                <td>{{ doc.employer_name }}</td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

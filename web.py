@@ -4,6 +4,8 @@ import random
 from flask import Flask, redirect, render_template, request
 from pymongo import MongoClient
 
+PER_PAGE = 10
+
 
 # load doc ids
 
@@ -21,8 +23,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # return render_template('index.html')
-    return redirect('/%i' % random_id())
+    return render_template('index.html')
+
+@app.route('/data')
+def thedata():
+    page = int(request.args.get('page', 1))
+    context = {
+        'docs': client['app22023129'].registrations.find({}).limit(PER_PAGE),
+    }
+    return render_template('thedata.html', **context)
 
 @app.route('/random')
 def random_doc():
