@@ -55,7 +55,7 @@ def thedata():
         'previous_page': page - 1 if page > 1 else None,
         'docs': qs.sort('doc_id').limit(PER_PAGE).skip(offset),
         'filter_qs': urllib.urlencode(filters),
-        'filtered': bool(spec),
+        'filtered': bool(filters),
     }
     return render_template('thedata.html', **context)
 
