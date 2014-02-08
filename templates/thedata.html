@@ -22,23 +22,25 @@
                     </tr>
                 {% endfor %}
             </table>
-            <div style="text-align: center;">
-	            <ul class="pagination">
-	            	{% if previous_page %}
-	            		<li><a href="?page={{ previous_page }}&{{ filter_qs }}">&laquo;</a></li>
-	            	{% endif %}
-	            	{% for i in range(1, total_pages + 1) %}
-	            		{% if i == page %}
-	            			<li class="active"><span>{{ i }}</span></li>
-	            		{% else %}
-				  			<li><a href="?page={{ i }}&{{ filter_qs }}">{{ i }}</a></li>
-	            		{% endif %}
-				  	{% endfor %}
-				  	{% if next_page %}
-	            		<li><a href="?page={{ next_page }}&{{ filter_qs }}">&raquo;</a></li>
-	            	{% endif %}
-				</ul>
-			</div>
+            {% if previous_page or next_page %}
+	            <div style="text-align: center;">
+		            <ul class="pagination">
+		            	{% if previous_page %}
+		            		<li><a href="?page={{ previous_page }}&{{ filter_qs }}">&laquo;</a></li>
+		            	{% endif %}
+		            	{% for i in range(1, total_pages + 1) %}
+		            		{% if i == page %}
+		            			<li class="active"><span>{{ i }}</span></li>
+		            		{% else %}
+					  			<li><a href="?page={{ i }}&{{ filter_qs }}">{{ i }}</a></li>
+		            		{% endif %}
+					  	{% endfor %}
+					  	{% if next_page %}
+		            		<li><a href="?page={{ next_page }}&{{ filter_qs }}">&raquo;</a></li>
+		            	{% endif %}
+					</ul>
+				</div>
+			{% endif %}
         </div>
     </div>
 {% endblock %}
