@@ -1,6 +1,7 @@
 import math
 import os
 import random
+import urllib
 
 from flask import Flask, redirect, render_template, request
 from pymongo import MongoClient
@@ -34,14 +35,14 @@ def thedata():
 
     filtered = False
 
-    spec = {}
+    filters = {}
 
     valid_filters = ['lobbyist_name', 'firm_name', 'employer_name']
     for key in valid_filters:
         if key in request.args:
-            spec[key] = request.args[key]
+            filters[key] = request.args[key]
 
-    qs = client['app22023129'].registrations.find(spec)
+    qs = client['app22023129'].registrations.find(filters)
 
     total_docs = qs.count()
     total_pages = int(math.ceil(total_docs / float(PER_PAGE)))
@@ -53,6 +54,7 @@ def thedata():
         'next_page': page + 1 if page < total_pages else None,
         'previous_page': page - 1 if page > 1 else None,
         'docs': qs.sort('doc_id').limit(PER_PAGE).skip(offset),
+        'filter_qs': urllib.urlencode(filters),
         'filtered': bool(spec),
     }
     return render_template('thedata.html', **context)
