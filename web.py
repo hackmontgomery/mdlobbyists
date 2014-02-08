@@ -31,7 +31,7 @@ def thedata():
     qs = client['app22023129'].registrations.find({})
     context = {
         'total_count': qs.count(),
-        'docs': qs.limit(PER_PAGE),
+        'docs': qs.sort('doc_id').limit(PER_PAGE),
     }
     return render_template('thedata.html', **context)
 
