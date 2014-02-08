@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>MD Lobbyist Registration Form</title>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/datepicker.css">
+        <style>
+            iframe { margin: 0; padding: 0; width: 100%; position: fixed; top: 0; left: 0; width: 58%; }
+            fieldset { margin-bottom: 2em; }
+            form { margin-top: 1em; }
+            label small, legend small { color: #999; display: inline-block; margin-left: 1em; }
+            .form-actions { background-color: #eee; border-top: 1px solid #aaa; margin-bottom: 2em; padding: 1em; }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-7">
+                    <iframe frameborder="0" src="http://s3.amazonaws.com/hackmontgomery/lobbying/pdfs/{{ doc_id }}.pdf"></iframe>
+                </div>
+                <div class="col-sm-5">
+                    <h1>Registration {{ doc_id }}</h1>
+                    <form role="form" action="/{{ doc_id }}" method="post">
+                        <input type="hidden" name="doc_id" value="{{ doc_id }}">
+
+                        <fieldset>
+                            <legend>Part A. General Information</legend>
+                            <p>What type of registration are they seeking?</p>
+                            <div class="checkbox-inline">
+                                <label>
+                                    <input type="checkbox" name="type_legislative"> Legislative
+                                </label>
+                            </div>
+                            <div class="checkbox-inline">
+                                <label>
+                                    <input type="checkbox" name="type_executive"> Executive
+                                </label>
+                            </div>
+                            <div class="checkbox-inline">
+                                <label>
+                                    <input type="checkbox" name="type_grassroots"> Grass Roots
+                                </label>
+                            </div>
+                            <div class="checkbox-inline">
+                                <label>
+                                    <input type="checkbox" name="type_nonexempt"> Non-exempt
+                                </label>
+                            </div>
+                            <p>Is the employer or the registered organization (if there is no employer) organized and operated for the primary purpose of attempting to influence any legislation or executive action?</p>
+                            <div class="form-group">
+                                <select name="primary_purpose" class="form-control">
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Part B. Identification of Registrant</legend>
+                            <div class="form-group">
+                                <label for="id_lobbyist_name">Name of Registrant/Regulated Lobbyist <small>(1a)</small></label>
+                                <input type="text" name="lobbyist_name" id="id_lobbyist_name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_firm_name">Name of Firm <small>(1b)</small></label>
+                                <input type="text" name="firm_name" id="id_firm_name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_firm_address">Firm Address <small>(1b)</small></label>
+                                <textarea name="firm_address" id="id_firm_address" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_occupation">Occupation or Type of Business <small>(1d)</small></label>
+                                <input type="text" name="occupation" id="id_occupation" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_employer_name">Name of Employer <small>(3a)</small></label>
+                                <input type="text" name="employer_name" id="id_employer_name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_employer_address">Employer Address <small>(3a)</small></label>
+                                <textarea name="employer_address" id="id_employer_address" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_nature_of_business">Nature of business <small>(3a)</small></label>
+                                <input type="text" name="nature_of_business" id="id_nature_of_business" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_employer_url">Employer URL <small>(3a)</small></label>
+                                <input type="text" name="employer_url" id="id_employer_url" class="form-control">
+                            </div>
+                            <p>Will he/she be representing any other person or entity regarding the matters identified in this registration?
+                            <div class="form-group">
+                                <select name="represent_other" class="form-control">
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_start_date">For what period will this registration be effective? <small>(4b)</small></label>
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <p class="btn btn-fake">Starting</p>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input type="text" name="start_date" id="id_start_date" class="form-control datepicker">
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <p class="btn btn-fake">to</p>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input type="text" name="end_date" id="id_end_date" class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_matters">On what matters will he/she be acting <small>(4b)</small></label>
+                                <p><small>One per line, please.</small></p>
+                                <textarea name="matters" id="id_matters" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_bills">If known, the bill numbers on which he/she will lobby <small>(4c)</small></label>
+                                <p><small>One per line, please.</small></p>
+                                <textarea name="bills" id="id_bills" class="form-control" rows="3"></textarea>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save and do another</button>
+                            <a href="/random" class="btn btn-warning">Skip and do another</a>
+                            <a href="/" class="btn btn-link">or just leave</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="/static/js/jquery-2.1.0.min.js"></script>
+        <script src="/static/js/bootstrap-datepicker.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('iframe').height($(window).height());
+                $('.datepicker').datepicker();
+            });
+        </script>
+    </body>
+</html>
