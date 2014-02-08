@@ -18,7 +18,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('doc.html')
+    # return render_template('index.html')
+    return redirect('/%i' % random_id())
 
 @app.route('/random')
 def random_doc():
