@@ -27,25 +27,44 @@ def index():
 
 @app.route('/data')
 def thedata():
+
     page = int(request.args.get('page', 1))
-    qs = client['app22023129'].registrations.find({})
+
+    filtered = False
+
+    spec = {}
+
+    valid_filters = ['lobbyist_name', 'firm_name', 'employer_name']
+    for key in valid_filters:
+        if key in request.args:
+            spec[key] = request.args[key]
+
+    qs = client['app22023129'].registrations.find(spec)
+
     context = {
         'total_count': qs.count(),
         'docs': qs.sort('doc_id').limit(PER_PAGE),
+        'filtered': bool(spec),
     }
     return render_template('thedata.html', **context)
+
+@app.route('/data/<doc_id>')
+def a_doc(doc_id):
+    doc = client['app22023129'].registrations.find_one({'doc_id': doc_id})
+    context = {'doc': doc}
+    return render_template('doc.html', **context)
 
 @app.route('/random')
 def random_doc():
     return redirect('/%i' % random_id())
 
-@app.route('/<int:doc_id>', methods=['GET', 'POST'])
+@app.route('/<doc_id>', methods=['GET', 'POST'])
 def doc(doc_id):
     if request.method == 'POST':
         client['app22023129'].registrations.insert(dict(request.form.items()))
         return redirect('/%i' % random_id())
     context = {'doc_id': doc_id}
-    return render_template('doc.html', **context)
+    return render_template('doc_form.html', **context)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
