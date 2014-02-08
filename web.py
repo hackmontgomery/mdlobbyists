@@ -1,6 +1,8 @@
 import os
 import random
+
 from flask import Flask, redirect, render_template, request
+from pymongo import MongoClient
 
 
 # load doc ids
@@ -14,6 +16,7 @@ def random_id():
 
 # the Flask app
 
+client = MongoClient(os.environ.get('MONGOHQ_URL'))
 app = Flask(__name__)
 
 @app.route('/')
@@ -28,7 +31,7 @@ def random_doc():
 @app.route('/<int:doc_id>', methods=['GET', 'POST'])
 def doc(doc_id):
     if request.method == 'POST':
-        print request.form
+        client['app22023129'].registrations.insert(dict(request.form.items()))
         return redirect('/%i' % random_id())
     context = {'doc_id': doc_id}
     return render_template('doc.html', **context)
