@@ -8,7 +8,9 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
+                    <h1>The Data</h1>
+                    <p>{{ total_count }} total records</p>
                     <table class="table">
                         <tr>
                             <th>Document</th>
@@ -16,14 +18,14 @@
                             <th>Firm</th>
                             <th>Employer</th>
                         </tr>
-                        <tr>
-                            {% for doc in docs %}
+                        {% for doc in docs %}
+                            <tr>
                                 <td><a href="#">{{ doc.doc_id }}</a></td>
                                 <td>{{ doc.lobbyist_name }}</td>
                                 <td>{{ doc.firm_name }}</td>
                                 <td>{{ doc.employer_name }}</td>
-                            {% endfor %}
-                        </tr>
+                            </tr>
+                        {% endfor %}
                     </table>
                 </div>
             </div>
