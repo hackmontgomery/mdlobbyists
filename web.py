@@ -1,10 +1,11 @@
+import math
 import os
 import random
 
 from flask import Flask, redirect, render_template, request
 from pymongo import MongoClient
 
-PER_PAGE = 100
+PER_PAGE = 20
 
 
 # load doc ids
@@ -29,6 +30,7 @@ def index():
 def thedata():
 
     page = int(request.args.get('page', 1))
+    offset = (page - 1) * PER_PAGE
 
     filtered = False
 
@@ -41,9 +43,16 @@ def thedata():
 
     qs = client['app22023129'].registrations.find(spec)
 
+    total_docs = qs.count()
+    total_pages = int(math.ceil(total_docs / float(PER_PAGE)))
+
     context = {
-        'total_count': qs.count(),
-        'docs': qs.sort('doc_id').limit(PER_PAGE),
+        'total_count': total_docs,
+        'total_pages': total_pages,
+        'page': page,
+        'next_page': page + 1 if page < total_pages else None,
+        'previous_page': page - 1 if page > 1 else None,
+        'docs': qs.sort('doc_id').limit(PER_PAGE).skip(offset),
         'filtered': bool(spec),
     }
     return render_template('thedata.html', **context)

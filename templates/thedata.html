@@ -22,6 +22,23 @@
                     </tr>
                 {% endfor %}
             </table>
+            <div style="text-align: center;">
+	            <ul class="pagination">
+	            	{% if previous_page %}
+	            		<li><a href="?page={{ previous_page }}">&laquo;</a></li>
+	            	{% endif %}
+	            	{% for i in range(1, total_pages + 1) %}
+	            		{% if i == page %}
+	            			<li class="active"><span>{{ i }}</span></li>
+	            		{% else %}
+				  			<li><a href="?page={{ i }}">{{ i }}</a></li>
+	            		{% endif %}
+				  	{% endfor %}
+				  	{% if next_page %}
+	            		<li><a href="?page={{ next_page }}">&laquo;</a></li>
+	            	{% endif %}
+				</ul>
+			</div>
         </div>
     </div>
 {% endblock %}
