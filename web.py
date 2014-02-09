@@ -3,7 +3,8 @@ import os
 import random
 import urllib
 
-from flask import Flask, redirect, render_template, request
+from bson import json_util
+from flask import Flask, Response, redirect, render_template, request
 from pymongo import MongoClient
 
 PER_PAGE = 20
@@ -42,6 +43,8 @@ def thedata():
         if key in request.args:
             filters[key] = request.args[key]
 
+    print filters
+
     qs = client['app22023129'].registrations.find(filters)
 
     total_docs = qs.count()
@@ -64,6 +67,11 @@ def a_doc(doc_id):
     doc = client['app22023129'].registrations.find_one({'doc_id': doc_id})
     context = {'doc': doc}
     return render_template('doc.html', **context)
+
+@app.route('/data/<doc_id>.json')
+def a_doc_api(doc_id):
+    doc = client['app22023129'].registrations.find_one({'doc_id': doc_id})
+    return Response(json_util.dumps(doc), mimetype='application/json')
 
 @app.route('/random')
 def random_doc():
